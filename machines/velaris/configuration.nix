@@ -1,10 +1,37 @@
-{ ... }:
+{ pkgs, config, ... }:
 {
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  nix.enable = false;
   nix.settings.experimental-features = "nix-command flakes";
+  nixpkgs.config.allowUnfree = true;
 
-  system.configurationRevision = self.rev or self.dirtyRev or null;
+  nix-homebrew = {
+    enable = true;
+    user = "aarbour";
+  };
+
+  environment.systemPackages = with pkgs; [
+    # GUI
+    obsidian
+    # CMD
+    neovim
+  ];
+  homebrew = {
+    enable = true;
+    brews = [
+      "mas"
+    ];
+    casks = [
+      "iina"
+      "the-unarchiver"
+    ];
+    onActivation.cleanup = "zap";
+  };
+
+  fonts.packages = [];
+
+  nixpkgs.hostPlatform = "aarch64-darwin"; 
+
+####### DO NOT TOUCH #######
   system.stateVersion = 5;
-
+  nix.enable = false;  # Disabled because we're using Determinate's installation
+####### DO NOT TOUCH #######
 }
