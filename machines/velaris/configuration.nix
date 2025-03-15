@@ -12,6 +12,7 @@
     # GUI
     obsidian
     # CMD
+    just
     neovim
   ];
   homebrew = {
@@ -24,6 +25,8 @@
       "the-unarchiver"
     ];
     onActivation.cleanup = "zap";
+    onActivation.autoUpdate = true;
+    onActivation.upgrade = true;
   };
 
   fonts.packages = [];
