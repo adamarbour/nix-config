@@ -11,7 +11,7 @@ in
   # TODO: Move out
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.config.allowUnfree = true;
-  
+
   # programs
   programs.zsh.enable = true;
   programs.zsh.enableCompletion = false; # slow
@@ -27,13 +27,14 @@ in
     obsidian
     # CMD
     just
+    home-manager
     neovim
   ];
 
   # homebrew
   homebrew = {
     enable = true;
-    
+
     onActivation = {
       cleanup = "zap";
       autoUpdate = true;
@@ -134,7 +135,7 @@ in
     ShowHardDrivesOnDesktop = false;
     ShowPathbar = true;
     ShowRemovableMediaOnDesktop = true;
-    ShowStatusBar = true; 
+    ShowStatusBar = true;
   };
   # finder - user options
   system.defaults.CustomUserPreferences."com.apple.finder" = {
@@ -226,7 +227,7 @@ in
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nix.enable = false;  # Disabled because we're using Determinate's installation
-  
+
 ####### DO NOT TOUCH #######
   system.stateVersion = 5;
 ####### DO NOT TOUCH #######

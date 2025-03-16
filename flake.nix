@@ -11,7 +11,7 @@
     nix-homebrew,
     home-manager
   }: {
-    
+
     darwinConfigurations."velaris" = nix-darwin.lib.darwinSystem {
       modules = [
         mac-app-util.darwinModules.default
@@ -21,13 +21,21 @@
       ];
     };
 
+    homeConfigurations = {
+      "aarbour@velaris" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs;};
+        modules = [ ./machines/velaris/home.nix ];
+      };
+    };
+
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
-    
+
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs-darwin";
     # Mac app utilities

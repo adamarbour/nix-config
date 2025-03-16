@@ -1,5 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
+  home = {
+    username = lib.mkDefault "aarbour";
+    homeDirectory = lib.mkDefault "/Users/aarbour";
+  };
 
   programs = {
 
