@@ -9,16 +9,13 @@
     nix-darwin,
     mac-app-util,
     nix-homebrew,
+    sops-nix,
     home-manager
   }: {
 
     darwinConfigurations."velaris" = nix-darwin.lib.darwinSystem {
-      modules = [
-        mac-app-util.darwinModules.default
-        nix-homebrew.darwinModules.nix-homebrew
-        home-manager.darwinModules.home-manager
-        ./machines/velaris
-      ];
+      specialArgs = { inherit inputs; };
+      modules = [ ./machines/velaris ];
     };
 
     homeConfigurations = {
@@ -43,6 +40,9 @@
     mac-app-util.inputs.nixpkgs.follows = "nixpkgs-darwin";
     # Homebrew
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";

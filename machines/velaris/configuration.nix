@@ -90,8 +90,8 @@ in
   # power
   power = {
     restartAfterFreeze = true;
-    sleep.computer = 20;
-    sleep.display = 5;
+    sleep.computer = 2; # Screensaver
+    sleep.display = 6; # Display
     sleep.harddisk = 10;
   };
   # screen lock settings
@@ -139,10 +139,13 @@ in
   };
   # finder - user options
   system.defaults.CustomUserPreferences."com.apple.finder" = {
-    WarnOnEmptyTrash = false;
-    NewWindowTarget = "PfHm"; # new windows open in home dir
     _FXSortFoldersFirst = true;
     _FXSortFoldersFirstOnDesktop = true;
+    FinderSpawnTab = true;
+    FXDefaultSearchScope = "SCcf";
+    NewWindowTarget = "PfHm"; # new windows open in home dir
+    NewWindowTargetPath = "file:///Users/${user}/";
+    WarnOnEmptyTrash = false;
   };
   # system defaults
   system.defaults.NSGlobalDomain = {
@@ -227,6 +230,7 @@ in
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nix.enable = false;  # Disabled because we're using Determinate's installation
+  nix.package = pkgs.nix;
 
 ####### DO NOT TOUCH #######
   system.stateVersion = 5;

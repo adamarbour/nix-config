@@ -1,9 +1,5 @@
 { pkgs, lib, ... }:
 {
-  home = {
-    username = lib.mkDefault "aarbour";
-    homeDirectory = lib.mkDefault "/Users/aarbour";
-  };
 
   programs = {
 
@@ -11,6 +7,12 @@
       enable = true;
       userName  = "Adam Arbour";
       userEmail = "adam.arbour@gmail.com";
+      extraConfig = {
+        init.defaultBranch = "main";
+      };
+      ignores = [
+        ".DS_Store"
+      ];
     };
 
     zsh = {
@@ -27,6 +29,15 @@
   };
 
   xdg.enable = true;
+
+  home.packages = with pkgs; [
+    age
+    sops
+    ssh-to-age
+  ];
+
+  home.username = lib.mkDefault "aarbour";
+  home.homeDirectory = lib.mkDefault "/Users/aarbour";
 
 ####### DO NOT TOUCH #######
   home.stateVersion = "24.11";
