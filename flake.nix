@@ -16,6 +16,7 @@
       modules = [
         mac-app-util.darwinModules.default
         nix-homebrew.darwinModules.nix-homebrew
+        home-manager.darwinModules.home-manager
         ./machines/velaris
       ];
     };
