@@ -173,6 +173,24 @@
         "type": "github"
       }
     },
+    "nix-secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742108878,
+        "narHash": "sha256-cv6TzyWzA7gl1/f+iGkiwB6uhWK/PPQyp2Tc01xgu1c=",
+        "ref": "main",
+        "rev": "a639d96e60de4a659a39ec55347e05a7a880b4c3",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/adamarbour/nix-secrets"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/adamarbour/nix-secrets"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1687274257,
@@ -240,6 +258,7 @@
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
+        "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "sops-nix": "sops-nix",

@@ -1,20 +1,30 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 let
   user = config.hostUser;
+  secretspath = builtins.toString inputs.nix-secrets;
 in
 {
   users.users."${user}" = {
     home = /Users/${user};
-    description = "_";
+    shell = pkgs.fish;
+    description = "${user}";
+    uid = 501;
   };
+  users.knownUsers = [ "${user}" ];
 
   # TODO: Move out
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.config.allowUnfree = true;
 
   # programs
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = false; # slow
+  programs = {
+    fish = {
+      enable = true;
+      vendor.completions.enable = true;
+      vendor.config.enable = true;
+      vendor.functions.enable = true;
+    };
+  };
 
   # home manager
   home-manager.useGlobalPkgs = true;
@@ -23,8 +33,6 @@ in
   # system packages - TODO: Move out
   environment.systemPackages = with pkgs; [
     # GUI
-    zed-editor
-    obsidian
     # CMD
     just
     home-manager
@@ -50,11 +58,48 @@ in
       "mas"
     ];
     casks = [
+      "accord"
+      "alfred"
+      "audio-hijack"
+      "batfi"
+      "qbettertouchtool"
+      "bitwarden"
+      "cameracontroller"
+      "crystalfetch"
+      "deskpad"
+      "figma"
+      "font-sf-pro"
       "ghostty"
+      "ia-presenter"
       "iina"
+      "jordanbaird-ice"
+      "libreoffice"
+      "mac-mouse-fix"
+      "moonlight"
+      "microsoft-edge"
+      "miro"
+      "neovide"
+      "obs"
+      "obsidian"
+      "pearcleaner"
+      "rawtherapee"
+      "screen-studio"
+      "sf-symbols"
       "the-unarchiver"
+      "alex313031-thorium" # Thorium browser
+      "utm"
+#      "vimcal"
+      "zen-browser"
     ];
     masApps = {
+      A4Obsidian = 1659667937;
+      Cursor = 1447043133;
+      Dato = 1470584107;
+      Drafts = 1435957248;
+      FolderHub = 6473019059;
+      Infuse = 1136220934;
+      Photomator = 1444636541;
+      Pixelmator = 1289583905;
       Xcode = 497799835;
     };
     taps = [];
@@ -115,6 +160,22 @@ in
     minimize-to-application = true;
     mru-spaces = false;
     orientation = "bottom";
+    persistent-apps = [
+      "/System/Applications/Mail.app"
+      "/Applications/Zen.app"
+      "/Applications/Microsoft Edge.app"
+      "/Applications/Thorium.app"
+      "/Applications/Ghostty.app"
+      "/System/Applications/Reminders.app"
+      "/Applications/Obsidian.app"
+      "/Applications/Miro.app"
+      "/System/Applications/Photos.app"
+      "/Applications/Photomator.app"
+      "/Applications/Pixelmator Pro.app"
+      
+      "/Applications/Neovide.app"
+    ];
+    scroll-to-open = true;
     show-recents = false;
     showhidden = true;
     tilesize = 48;
@@ -227,6 +288,21 @@ in
 
   # enable touch for sudo
   security.pam.enableSudoTouchIdAuth = true;
+
+  # sops
+  sops = {
+    defaultSopsFile = "${secretspath}/secrets.yaml";
+    age = {
+      sshKeyPaths = ["/Users/aarbour/.ssh/id_ed25519"]; # TODO: Fix me
+      keyFile = "/var/lib/sops-nix/key.txt";
+      generateKey = true;
+    };
+    secrets = {
+      example_key = {
+        neededForUsers = true;
+      };
+    };
+  };
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nix.enable = false;  # Disabled because we're using Determinate's installation

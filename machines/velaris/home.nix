@@ -15,9 +15,9 @@
       ];
     };
 
-    zsh = {
+    fish = {
       enable = true;
-      enableCompletion = false;
+      generateCompletions = true;
     };
 
     fzf = {
@@ -30,14 +30,14 @@
 
   xdg.enable = true;
 
+  home.username = lib.mkDefault "aarbour";
+  home.homeDirectory = lib.mkDefault "/Users/aarbour";
+  
   home.packages = with pkgs; [
     age
     sops
     ssh-to-age
   ];
-
-  home.username = lib.mkDefault "aarbour";
-  home.homeDirectory = lib.mkDefault "/Users/aarbour";
 
 ####### DO NOT TOUCH #######
   home.stateVersion = "24.11";

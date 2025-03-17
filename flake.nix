@@ -10,6 +10,7 @@
     mac-app-util,
     nix-homebrew,
     sops-nix,
+    nix-secrets,
     home-manager
   }: {
 
@@ -43,6 +44,10 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-secrets = {
+      url = "git+ssh://git@github.com/adamarbour/nix-secrets?shallow=1&ref=main";
+      flake = false;
+    };
 
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
