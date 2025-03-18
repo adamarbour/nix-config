@@ -311,8 +311,8 @@ in
   };
 
   # enable touch for sudo
-  security.pam.enableSudoTouchIdAuth = true;
-
+#  security.pam.enableSudoTouchIdAuth = true; -- disabled in favor of Yubikey
+/*
   # sops
   sops = {
     defaultSopsFile = "${secretspath}/secrets.yaml";
@@ -327,9 +327,9 @@ in
       };
     };
   };
-
+*/
   nixpkgs.hostPlatform = "aarch64-darwin";
-  nix.enable = false;  # Disabled because we're using Determinate's installation
+  nix.enable = false;
   nix.package = pkgs.nix;
 
 ####### DO NOT TOUCH #######
