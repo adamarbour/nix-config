@@ -37,6 +37,7 @@ in
     just
     home-manager
     neovim
+    discordo
   ];
 
   # homebrew
@@ -58,11 +59,11 @@ in
       "mas"
     ];
     casks = [
-      "accord"
       "alfred"
       "audio-hijack"
+      "balenaetcher"
       "batfi"
-      "qbettertouchtool"
+      "bettertouchtool"
       "bitwarden"
       "cameracontroller"
       "crystalfetch"
@@ -74,6 +75,7 @@ in
       "iina"
       "jordanbaird-ice"
       "libreoffice"
+      "logi-options+"
       "mac-mouse-fix"
       "moonlight"
       "microsoft-edge"
@@ -89,6 +91,8 @@ in
       "alex313031-thorium" # Thorium browser
       "utm"
 #      "vimcal"
+      "viscosity"
+      "vscodium"
       "zen-browser"
     ];
     masApps = {

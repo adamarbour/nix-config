@@ -1,5 +1,11 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
+let
+  imgProfile = ../../profiles/me.jpg; # Profile photo
+in
 {
+  home.file = {
+    "${config.xdg.configHome}/me.jpg".source = imgProfile;
+  };
 
   programs = {
 
@@ -20,10 +26,30 @@
       generateCompletions = true;
     };
 
+    nushell = {
+      enable = true;
+    };
+
+    starship = {
+      enable = true; 
+      enableFishIntegration = true;
+      enableNushellIntegration = true;
+      settings = {
+        add_newline = false;
+        format = lib.concatStrings [
+          "$directory"
+          "$git_branch"
+          "$git_status"
+          "$character"
+        ];
+      };
+    };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
     };
+
     man.generateCaches = true;
     home-manager.enable = true;
   };
@@ -38,6 +64,9 @@
     sops
     ssh-to-age
   ];
+
+  news.display = "silent";
+  manual.html.enable = true;
 
 ####### DO NOT TOUCH #######
   home.stateVersion = "24.11";
