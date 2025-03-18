@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }:
 let
+  # TODO: Figure out how to declaratively set the profile photo
   imgProfile = ../../profiles/me.jpg; # Profile photo
 in
 {

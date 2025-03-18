@@ -12,6 +12,26 @@ in
   };
   users.knownUsers = [ "${user}" ];
 
+  # darwin linux builder
+  nix.linux-builder = {
+    enable = true;
+    ephemeral = true;
+    maxJobs = 4;
+    config = {
+      virtualisation = {
+        darwin-builder = {
+          diskSize = 40 * 1024;
+          memorySize = 6 * 1024;
+        };
+        cores = 4;
+      };
+    };
+  };
+  nix.settings.trusted-users = [ "@admin" ];
+  nix.extraOptions = ''
+    extra-platforms = x86_64-darwin aarch64-darwin
+  '';
+
   # TODO: Move out
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.config.allowUnfree = true;
