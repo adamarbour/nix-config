@@ -40,6 +40,27 @@ in {
     };
   };
 
+  system.defaults.dock.persistent-apps = [
+    "/Applications/Ghostty.app"
+    "/Applications/Obsidian.app"
+    "/System/Applications/Reminders.app"
+    "/Applications/Neovide.app"
+    "/Applications/Miro.app"
+    "/Applications/Figma.app"
+    "/System/Applications/Mail.app"
+    "/System/Applications/Calendar.app"
+    "/Applications/Zen.app"
+    "/Applications/Microsoft Edge.app"
+    "/Applications/Thorium.app"
+    "/System/Applications/Music.app"
+    "/Applications/OBS.app"
+    "/Applications/RawTherapee.app"
+    "/System/Applications/Photos.app"
+    "/Applications/Photomator.app"
+    "/Applications/Pixelmator Pro.app"
+    "/Applications/Moonlight.app"
+  ];
+
   nix.optimise.automatic = true;
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];

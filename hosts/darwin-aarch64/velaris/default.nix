@@ -7,5 +7,6 @@
     ./configuration.nix
     ./homebrew.nix
     ./system-defaults.nix
+    ./builder.nix
   ];
 }
