@@ -1,137 +1,8 @@
-{ inputs, config, pkgs, ... }:
-let
-  user = config.hostUser;
-  secretspath = builtins.toString inputs.nix-secrets;
-in
-{
-  users.users."${user}" = {
-    home = /Users/${user};
-    shell = pkgs.fish;
-    description = "${user}";
-    uid = 501;
-  };
-  users.knownUsers = [ "${user}" ];
-
-  # darwin linux builder
-  nix.linux-builder = {
-    enable = true;
-    ephemeral = true;
-    maxJobs = 4;
-    config = {
-      virtualisation = {
-        darwin-builder = {
-          diskSize = 40 * 1024;
-          memorySize = 6 * 1024;
-        };
-        cores = 4;
-      };
-    };
-  };
-  nix.settings.trusted-users = [ "@admin" ];
-  nix.extraOptions = ''
-    extra-platforms = x86_64-darwin aarch64-darwin
-  '';
-
-  # TODO: Move out
-  nix.settings.experimental-features = "nix-command flakes";
-  nixpkgs.config.allowUnfree = true;
-
-  # programs
-  programs = {
-    fish = {
-      enable = true;
-      vendor.completions.enable = true;
-      vendor.config.enable = true;
-      vendor.functions.enable = true;
-    };
-  };
-
-  # home manager
-  home-manager.useGlobalPkgs = true;
-  home-manager.users."${user}" = import ./home.nix;
-
-  # system packages - TODO: Move out
-  environment.systemPackages = with pkgs; [
-    # GUI
-    # CMD
-    just
-    home-manager
-    neovim
-    discordo
-  ];
-
-  # homebrew
-  homebrew = {
-    enable = true;
-
-    onActivation = {
-      cleanup = "zap";
-      autoUpdate = true;
-      upgrade = true;
-    };
-
-    caskArgs = {
-      no_quarantine = true;
-      # require_sha = true;
-    };
-
-    brews = [
-      "mas"
-    ];
-    casks = [
-      "alfred"
-      "audio-hijack"
-      "balenaetcher"
-      "batfi"
-      "bettertouchtool"
-      "bitwarden"
-      "cameracontroller"
-      "crystalfetch"
-      "deskpad"
-      "figma"
-      "font-sf-pro"
-      "ghostty"
-      "ia-presenter"
-      "iina"
-      "jordanbaird-ice"
-      "libreoffice"
-      "logi-options+"
-      "mac-mouse-fix"
-      "moonlight"
-      "microsoft-edge"
-      "miro"
-      "neovide"
-      "obs"
-      "obsidian"
-      "pearcleaner"
-      "rawtherapee"
-      "screen-studio"
-      "sf-symbols"
-      "the-unarchiver"
-      "alex313031-thorium" # Thorium browser
-      "utm"
-#      "vimcal"
-      "viscosity"
-      "vscodium"
-      "zen-browser"
-    ];
-    masApps = {
-      A4Obsidian = 1659667937;
-      Cursor = 1447043133;
-      Dato = 1470584107;
-      Drafts = 1435957248;
-      FolderHub = 6473019059;
-      Infuse = 1136220934;
-      Photomator = 1444636541;
-      Pixelmator = 1289583905;
-      Xcode = 497799835;
-    };
-    taps = [];
-  };
-
-  fonts.packages = [];
-
-  # firewall
+{ config, ... }:
+let 
+  hostMachineName = "velaris";
+in {
+    # firewall
   system.defaults.alf = {
     globalstate = 2;
     stealthenabled = 1;
@@ -139,7 +10,7 @@ in
 
   # networking
   networking = {
-    hostName = config.hostMachineName;
+    hostName = hostMachineName;
     computerName = config.networking.hostName;
     localHostName = config.networking.hostName;
     knownNetworkServices = [
@@ -184,21 +55,6 @@ in
     minimize-to-application = true;
     mru-spaces = false;
     orientation = "bottom";
-    persistent-apps = [
-      "/System/Applications/Mail.app"
-      "/Applications/Zen.app"
-      "/Applications/Microsoft Edge.app"
-      "/Applications/Thorium.app"
-      "/Applications/Ghostty.app"
-      "/System/Applications/Reminders.app"
-      "/Applications/Obsidian.app"
-      "/Applications/Miro.app"
-      "/System/Applications/Photos.app"
-      "/Applications/Photomator.app"
-      "/Applications/Pixelmator Pro.app"
-      
-      "/Applications/Neovide.app"
-    ];
     scroll-to-open = true;
     show-recents = false;
     showhidden = true;
@@ -229,7 +85,6 @@ in
     FinderSpawnTab = true;
     FXDefaultSearchScope = "SCcf";
     NewWindowTarget = "PfHm"; # new windows open in home dir
-    NewWindowTargetPath = "file:///Users/${user}/";
     WarnOnEmptyTrash = false;
   };
   # system defaults
@@ -303,36 +158,4 @@ in
 
   # defaults - disable guest
   system.defaults.loginwindow.GuestEnabled = false;
-
-  # leverage nix-homebrew flake
-  nix-homebrew = {
-    enable = true;
-    user = "aarbour";
-  };
-
-  # enable touch for sudo
-#  security.pam.enableSudoTouchIdAuth = true; -- disabled in favor of Yubikey
-/*
-  # sops
-  sops = {
-    defaultSopsFile = "${secretspath}/secrets.yaml";
-    age = {
-      sshKeyPaths = ["/Users/aarbour/.ssh/id_ed25519"]; # TODO: Fix me
-      keyFile = "/var/lib/sops-nix/key.txt";
-      generateKey = true;
-    };
-    secrets = {
-      example_key = {
-        neededForUsers = true;
-      };
-    };
-  };
-*/
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  nix.enable = false;
-  nix.package = pkgs.nix;
-
-####### DO NOT TOUCH #######
-  system.stateVersion = 5;
-####### DO NOT TOUCH #######
 }
