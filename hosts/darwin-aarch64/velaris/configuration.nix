@@ -65,7 +65,7 @@ in {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     warn-dirty = false;
-    trusted-users = [ "root" "@wheel" "@admin" ];
+    trusted-users = [ "root" "${user}" "@wheel" "@admin" ];
     ## Reasonable defaults...
     connect-timeout = 5;
     log-lines = 25;
@@ -74,6 +74,7 @@ in {
   };
   nixpkgs.config.allowUnfree = true;
 
+  nix.package = pkgs.nix;
   nixpkgs.hostPlatform = "aarch64-darwin";
   nix.extraOptions = ''
     extra-platforms = x86_64-darwin aarch64-darwin
